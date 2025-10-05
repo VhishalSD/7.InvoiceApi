@@ -32,15 +32,14 @@ namespace _7.IncoiceApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Invoice>> GetInvoice(int id)
         {
-            var invoice = await _context.Invoices.FindAsync(id);
+            var invoice = await _context.Invoices
+                .Include(i => i.Items) // loads items
+                .FirstOrDefaultAsync(i => i.Id == id);
 
-            if (invoice == null)
-            {
-                return NotFound();
-            }
-
+            if (invoice == null) return NotFound();
             return invoice;
         }
+
 
         // PUT: api/Invoices/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
