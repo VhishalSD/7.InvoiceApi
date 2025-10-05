@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace _7.IncoiceApi.Migrations
 {
     [DbContext(typeof(InvoiceDbContext))]
-    [Migration("20251003145137_InitialCreate")]
+    [Migration("20251004194502_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

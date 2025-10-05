@@ -1,6 +1,7 @@
-﻿namespace InvoiceApp.EFCore.Models
-{
+﻿using System.Text.Json.Serialization;
 
+namespace InvoiceApp.EFCore.Models
+{
     // Represents a single invoice line (product/service).
 
     public class InvoiceItem
@@ -25,6 +26,7 @@
         public int InvoiceId { get; set; }
 
         //  Navigation to parent invoice. 
-        public Invoice Invoice { get; set; } = null!;
+        [JsonIgnore]
+        public Invoice? Invoice { get; set; } = null!;
     }
 }

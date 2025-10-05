@@ -17,8 +17,12 @@ namespace _7.IncoiceApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // make sure the database file is created in a known location
+            var dbPath = Path.Combine(AppContext.BaseDirectory, "invoices.db");
+
             builder.Services.AddDbContext<InvoiceDbContext>(options =>
-            options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlite($"Data Source={dbPath}"));
+
 
             var app = builder.Build();
 
