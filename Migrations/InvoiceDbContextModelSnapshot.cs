@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace _7.IncoiceApi.Migrations
+namespace InvoiceApi.Migrations
 {
     [DbContext(typeof(InvoiceDbContext))]
     partial class InvoiceDbContextModelSnapshot : ModelSnapshot
@@ -91,7 +91,7 @@ namespace _7.IncoiceApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Person");
+                    b.ToTable("People");
                 });
 
             modelBuilder.Entity("InvoiceApp.EFCore.Models.InvoiceItem", b =>

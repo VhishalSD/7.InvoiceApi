@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace _7.IncoiceApi.Migrations
+namespace InvoiceApi.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -28,7 +28,7 @@ namespace _7.IncoiceApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Person",
+                name: "People",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -39,7 +39,7 @@ namespace _7.IncoiceApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Person", x => x.Id);
+                    table.PrimaryKey("PK_People", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,7 +78,7 @@ namespace _7.IncoiceApi.Migrations
                 name: "InvoiceItems");
 
             migrationBuilder.DropTable(
-                name: "Person");
+                name: "People");
 
             migrationBuilder.DropTable(
                 name: "Invoices");

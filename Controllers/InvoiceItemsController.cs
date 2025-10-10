@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InvoiceApp.EFCore.Data;
 using InvoiceApp.EFCore.Models;
 
-namespace _7.IncoiceApi.Controllers
+namespace InvoiceApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

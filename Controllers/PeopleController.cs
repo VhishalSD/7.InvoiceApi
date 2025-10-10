@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InvoiceApp.EFCore.Data;
 using InvoiceApp.EFCore.Models;
 
-namespace _7.IncoiceApi.Controllers
+namespace InvoiceApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -25,14 +25,14 @@ namespace _7.IncoiceApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Person>>> GetPerson()
         {
-            return await _context.Person.ToListAsync();
+            return await _context.People.ToListAsync();
         }
 
         // GET: api/People/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Person>> GetPerson(int id)
         {
-            var person = await _context.Person.FindAsync(id);
+            var person = await _context.People.FindAsync(id);
 
             if (person == null)
             {
@@ -78,7 +78,7 @@ namespace _7.IncoiceApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Person>> PostPerson(Person person)
         {
-            _context.Person.Add(person);
+            _context.People.Add(person);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPerson", new { id = person.Id }, person);
@@ -88,13 +88,13 @@ namespace _7.IncoiceApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePerson(int id)
         {
-            var person = await _context.Person.FindAsync(id);
+            var person = await _context.People.FindAsync(id);
             if (person == null)
             {
                 return NotFound();
             }
 
-            _context.Person.Remove(person);
+            _context.People.Remove(person);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace _7.IncoiceApi.Controllers
 
         private bool PersonExists(int id)
         {
-            return _context.Person.Any(e => e.Id == id);
+            return _context.People.Any(e => e.Id == id);
         }
     }
 }

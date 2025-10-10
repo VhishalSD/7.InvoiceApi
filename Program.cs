@@ -1,8 +1,9 @@
 
+using InvoiceApi.Repositories;
 using InvoiceApp.EFCore.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace _7.IncoiceApi
+namespace InvoiceApi
 {
     public class Program
     {
@@ -16,6 +17,9 @@ namespace _7.IncoiceApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+            builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+            builder.Services.AddScoped<IInvoiceItemRepository, InvoiceItemRepository>();
 
             // make sure the database file is created in a known location
             var dbPath = Path.Combine(AppContext.BaseDirectory, "invoices.db");

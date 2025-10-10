@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceApp.EFCore.Data
 {
-    // EF Core DbContext for invoices and items.
-    
+    // EF Core DbContext for invoices, items and people.
     public class InvoiceDbContext : DbContext
     {
         public DbSet<Invoice> Invoices { get; set; } = null!;
         public DbSet<InvoiceItem> InvoiceItems { get; set; } = null!;
+        public DbSet<Person> People { get; set; } = null!;
 
         public InvoiceDbContext(DbContextOptions<InvoiceDbContext> options) : base(options) { }
 
@@ -23,7 +23,5 @@ namespace InvoiceApp.EFCore.Data
 
             base.OnModelCreating(modelBuilder);
         }
-    // EF Core DbContext for invoices and items.
-public DbSet<InvoiceApp.EFCore.Models.Person> Person { get; set; } = default!;
     }
 }
