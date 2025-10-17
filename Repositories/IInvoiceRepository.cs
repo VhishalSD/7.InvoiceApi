@@ -1,27 +1,37 @@
-﻿using InvoiceApp.EFCore.Models;
+﻿
+using InvoiceApp.EFCore.Models;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace InvoiceApi.Repositories
 {
-    // Interface defining all operations for the InvoiceRepository.
-    // Ensures the repository provides standard CRUD methods.
-
+    /// <summary>
+    /// Defines all operations that can be performed on invoices.
+    /// </summary>
     public interface IInvoiceRepository
     {
-        // Retrieves all invoices with their items
-        Task<IEnumerable<Invoice>> GetAllInvoicesAsync();
+        /// <summary>
+        /// Retrieves all invoices.
+        /// </summary>
+        IEnumerable<Invoice> GetAll();
 
-        // Retrieves a single invoice by its ID
-        Task<Invoice?> GetInvoiceByIdAsync(int id);
+        /// <summary>
+        /// Retrieves a specific invoice by ID.
+        /// </summary>
+        Invoice GetById(int id);
 
-        // Creates a new invoice and returns it (including generated ID)
-        Task<Invoice> CreateInvoiceAsync(Invoice invoice);
+        /// <summary>
+        /// Adds a new invoice.
+        /// </summary>
+        string Add(Invoice invoice);
 
-        // Updates an existing invoice
-        Task UpdateInvoiceAsync(Invoice invoice);
+        /// <summary>
+        /// Updates an existing invoice.
+        /// </summary>
+        string Update(Invoice invoice);
 
-        // Deletes an invoice by its ID
-        Task DeleteInvoiceAsync(int id);
+        /// <summary>
+        /// Deletes an invoice by ID.
+        /// </summary>
+        string Delete(int id);
     }
 }

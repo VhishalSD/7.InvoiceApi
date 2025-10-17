@@ -1,107 +1,91 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using InvoiceApp.EFCore.Data;
+﻿
+using InvoiceApi.Repositories;
 using InvoiceApp.EFCore.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace InvoiceApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class InvoicesController : ControllerBase
     {
-        private readonly InvoiceDbContext _context;
+        private readonly IInvoiceRepository _invoiceRepository;
 
-        public InvoicesController(InvoiceDbContext context)
+        /// <summary>
+        /// Initializes the controller with the repository.
+        /// </summary>
+        public InvoicesController(IInvoiceRepository invoiceRepository)
         {
-            _context = context;
+            _invoiceRepository = invoiceRepository;
         }
 
-        // GET: api/Invoices
+        /// <summary>
+        /// Retrieves all invoices.
+        /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoices()
+        public ActionResult<IEnumerable<Invoice>> Get()
         {
-            return await _context.Invoices.ToListAsync();
+            return Ok(_invoiceRepository.GetAll());
         }
 
-        // GET: api/Invoices/5
+        /// <summary>
+        /// Retrieves an invoice by ID.
+        /// </summary>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Invoice>> GetInvoice(int id)
+        public ActionResult<Invoice> Get(int id)
         {
-            var invoice = await _context.Invoices
-                .Include(i => i.Items) // loads items
-                .FirstOrDefaultAsync(i => i.Id == id);
+            if (id <= 0)
+                return BadRequest("ID cannot be negative or zero.");
 
-            if (invoice == null) return NotFound();
-            return invoice;
-        }
-
-
-        // PUT: api/Invoices/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutInvoice(int id, Invoice invoice)
-        {
-            if (id != invoice.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(invoice).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!InvoiceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Invoices
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Invoice>> PostInvoice(Invoice invoice)
-        {
-            _context.Invoices.Add(invoice);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetInvoice", new { id = invoice.Id }, invoice);
-        }
-
-        // DELETE: api/Invoices/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteInvoice(int id)
-        {
-            var invoice = await _context.Invoices.FindAsync(id);
+            var invoice = _invoiceRepository.GetById(id);
             if (invoice == null)
-            {
-                return NotFound();
-            }
+                return NotFound($"Invoice with ID {id} not found.");
 
-            _context.Invoices.Remove(invoice);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(invoice);
         }
 
-        private bool InvoiceExists(int id)
+        /// <summary>
+        /// Adds a new invoice.
+        /// </summary>
+        [HttpPost]
+        public ActionResult<string> Post([FromBody] Invoice invoice)
         {
-            return _context.Invoices.Any(e => e.Id == id);
+            if (invoice == null)
+                return BadRequest("Invoice cannot be null.");
+
+            var message = _invoiceRepository.Add(invoice);
+            return Ok(message);
+        }
+
+        /// <summary>
+        /// Updates an existing invoice.
+        /// </summary>
+        [HttpPut("{id}")]
+        public ActionResult<string> Put(int id, [FromBody] Invoice invoice)
+        {
+            if (id <= 0)
+                return BadRequest("ID cannot be negative or zero.");
+
+            if (invoice == null)
+                return BadRequest("Invoice cannot be null.");
+
+            invoice.Id = id; // Ensure ID consistency
+            var message = _invoiceRepository.Update(invoice);
+            return Ok(message);
+        }
+
+        /// <summary>
+        /// Deletes an invoice by ID.
+        /// </summary>
+        [HttpDelete("{id}")]
+        public ActionResult<string> Delete(int id)
+        {
+            if (id <= 0)
+                return BadRequest("ID cannot be negative or zero.");
+
+            var message = _invoiceRepository.Delete(id);
+            return Ok(message);
         }
     }
 }
