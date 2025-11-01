@@ -1,6 +1,0 @@
-@_7.IncoiceApi_HostAddress = http://localhost:5173
-
-GET {{_7.IncoiceApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
